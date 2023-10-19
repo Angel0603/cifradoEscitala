@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="estilos.css">
+    <title>Escítala</title>
+</head>
+<body>
+    <h1>Cifrado y Descifrado por el método de transposición Escítala</h1>
+    <div class="container">
+        <p>Ingresa el mensaje a cifrar o descifrar</p>
+        <textarea id="mensaje" placeholder="Ingresa tu mensaje"></textarea>
+        <br>
+        <p>Ingresa el diámetro del cilindro</p>
+        <input type="number" id="diametro" placeholder="Diámetro del tubo">
+        <br>
+        <button onclick="cifrar()">Cifrar</button>
+        <button onclick="descifrar()">Descifrar</button>
+        <br>
+        <textarea id="resultado" readonly></textarea>
+    </div>
+
+    <script>
+        function cifrar() {
+            const mensaje = document.getElementById("mensaje").value.replace(/\s/g, "");
+            const diametro = parseInt(document.getElementById("diametro").value);
+
+            const filas = Math.ceil(mensaje.length / diametro);
+            const matriz = new Array(filas);
+
+            for (let i = 0; i < filas; i++) {
+                matriz[i] = new Array(diametro);
+            }
+
+            let k = 0;
+            for (let j = 0; j < diametro; j++) {
+                for (let i = 0; i < filas; i++) {
+                    if (k < mensaje.length) {
+                        matriz[i][j] = mensaje[k++];
+                    }
+                }
+            }
+
+            let resultado = "";
+            for (let i = 0; i < filas; i++) {
+                for (let j = 0; j < diametro; j++) {
+                    if (matriz[i][j]) {
+                        resultado += matriz[i][j];
+                    }
+                }
+            }
+
+            resultado = resultado.toUpperCase();
+            document.getElementById("resultado").value = resultado;
+        }
+
+        function descifrar() {
+            const mensajeCifrado = document.getElementById("mensaje").value.replace(/\s/g, "");
+            const diametro = parseInt(document.getElementById("diametro").value);
+
+            const filas = Math.ceil(mensajeCifrado.length / diametro);
+            const matriz = new Array(filas);
+
+            for (let i = 0; i < filas; i++) {
+                matriz[i] = new Array(diametro);
+            }
+
+            let k = 0;
+            for (let i = 0; i < filas; i++) {
+                for (let j = 0; j < diametro; j++) {
+                    matriz[i][j] = mensajeCifrado[k++];
+                }
+            }
+
+            let resultado = "";
+            for (let j = 0; j < diametro; j++) {
+                for (let i = 0; i < filas; i++) {
+                    if (matriz[i][j]) {
+                        resultado += matriz[i][j];
+                    }
+                }
+            }
+
+            resultado = resultado.toUpperCase();
+            document.getElementById("resultado").value = resultado;
+        }
+    </script>
+</body>
+</html>
